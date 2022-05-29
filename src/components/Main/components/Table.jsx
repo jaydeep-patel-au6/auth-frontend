@@ -4,7 +4,7 @@ import "./style.scss";
 
 let PageSize = 10;
 
-const Table = ({ data }) => {
+const Table = ({ data, query }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const currentTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
@@ -33,24 +33,42 @@ const Table = ({ data }) => {
               </tr>
             </thead>
             <tbody>
-              {currentTableData?.map((user, idx) => {
-                return (
-                  <tr key={idx}>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      {user?._id}
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      {user?.firstName}
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      {user?.lastName}
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      {user?.email}
-                    </td>
-                  </tr>
-                );
-              })}
+              {currentTableData
+                ?.filter((post) => {
+                  if (query === "") {
+                    return post;
+                  } else if (
+                    post.email.toLowerCase().includes(query.toLowerCase())
+                  ) {
+                    return post;
+                  } else if (
+                    post.firstName.toLowerCase().includes(query.toLowerCase())
+                  ) {
+                    return post;
+                  } else if (
+                    post.lastName.toLowerCase().includes(query.toLowerCase())
+                  ) {
+                    return post;
+                  }
+                })
+                ?.map((user, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        {user?._id}
+                      </td>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        {user?.firstName}
+                      </td>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        {user?.lastName}
+                      </td>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        {user?.email}
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>

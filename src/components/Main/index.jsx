@@ -8,6 +8,7 @@ const Main = () => {
   const [userData, setUserData] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const [load, setLoad] = useState(false);
+  const [query, setQuery] = useState("");
 
   console.log(load, "load");
 
@@ -81,19 +82,29 @@ const Main = () => {
           Logout
         </button>
       </nav>
-      <div className="m-5 p-5 flex items-center justify-center flex-row">
+      <div className="m-10 flex items-center justify-start flex-col">
         <div>
-          <p className="mx-2">Sort : </p>
+          <div className="my-2">Sort :</div>
+          <div className="w-40">
+            <Select
+              defaultValue={selectedOption}
+              onChange={setSelectedOption}
+              options={options}
+            />
+          </div>
         </div>
-        <div className="w-40">
-          <Select
-            defaultValue={selectedOption}
-            onChange={setSelectedOption}
-            options={options}
-          />
+        <div className="mt-5">
+          <div className="my-2">Search :</div>
+          <div className="w-40">
+            <input
+              className="shadow appearance-none border mt-0 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={(event) => setQuery(event.target.value)}
+            />
+          </div>
         </div>
       </div>
-      <Table data={userData} />
+
+      <Table data={userData} query={query} />
     </div>
   );
 };
