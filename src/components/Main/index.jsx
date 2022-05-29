@@ -73,7 +73,7 @@ const Main = () => {
   };
 
   return (
-    <div className="flex items-center justify-between w-full px-10 flex-col">
+    <div className="flex items-center justify-between w-full flex-col">
       <nav className="flex items-center justify-between w-full bg-blue-500 px-10 py-5">
         <h1 className="text-2xl text-white font-semibold">User Data</h1>
         <button

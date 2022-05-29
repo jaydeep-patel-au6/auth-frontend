@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
@@ -12,8 +12,8 @@ const SignupSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string()
     .required("Required")
-	.max(26, "Not more than 26 char")
-	.min(8, "Not less than 8 char")
+    .max(26, "Not more than 26 char")
+    .min(8, "Not less than 8 char")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
       "One Uppercase, One Lowercase, One Number and One Special Case Character"
@@ -21,8 +21,10 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Signup = () => {
+  const [isDisable, setDisable] = useState(false);
   const navigate = useNavigate();
   const formSubmit = async (values, actions) => {
+    setDisable(true);
     const fetchedValues = {
       firstName: values?.firstName,
       lastName: values?.lastName,
@@ -35,7 +37,7 @@ const Signup = () => {
       const { data: res } = await axios.post(url, fetchedValues);
       toast.success("Register Sucessfull. Please login");
       navigate("/login");
-      console.log(res.message);
+      setDisable(false);
     } catch (error) {
       if (
         error.response &&
@@ -43,6 +45,7 @@ const Signup = () => {
         error.response.status <= 500
       ) {
         toast.error(error.response.data.message);
+        setDisable(false);
       }
     }
   };
@@ -69,7 +72,7 @@ const Signup = () => {
             <Form
               onSubmit={handleSubmit}
               autoComplete="off"
-              className="lg:w-1/2 bg-white shadow-xl p-10"
+              className="lg:w-1/2 bg-white shadow-xl border p-10"
             >
               <Field
                 name="firstName"
@@ -121,8 +124,11 @@ const Signup = () => {
                 </div>
               </Link>
               <button
-                className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                className={`shadow ${
+                  isDisable ? "bg-purple-400" : "bg-purple-600"
+                } focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded`}
                 type="submit"
+                disabled={isDisable}
               >
                 Submit
               </button>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
@@ -12,7 +12,10 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login = () => {
+  const [isDisable, setDisable] = useState(false);
+
   const formSubmit = async (values, { setSubmitting }) => {
+    setDisable(true);
     const fetchedValues = {
       email: values?.email,
       password: values?.password,
@@ -24,6 +27,7 @@ const Login = () => {
       localStorage.setItem("token", res.data);
       toast.success("Login Sucessfull");
       window.location = "/";
+      setDisable(false);
     } catch (error) {
       if (
         error.response &&
@@ -31,6 +35,7 @@ const Login = () => {
         error.response.status <= 500
       ) {
         toast.error(error.response.data.message);
+        setDisable(false);
       }
     }
   };
@@ -55,7 +60,7 @@ const Login = () => {
             <Form
               onSubmit={handleSubmit}
               autoComplete="off"
-              className="lg:w-1/2 bg-white shadow-xl p-10"
+              className="lg:w-1/2 bg-white shadow-xl border p-10"
             >
               <Field
                 name="email"
@@ -85,8 +90,11 @@ const Login = () => {
                 </div>
               </Link>
               <button
-                className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                className={`shadow ${
+                  isDisable ? "bg-purple-400" : "bg-purple-600"
+                } focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded`}
                 type="submit"
+                disabled={isDisable}
               >
                 Submit
               </button>
