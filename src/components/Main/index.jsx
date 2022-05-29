@@ -9,7 +9,7 @@ const Main = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [load, setLoad] = useState(false);
 
-  console.log(load, "load")
+  console.log(load, "load");
 
   const options = [
     { value: "email", label: "Email" },
@@ -28,16 +28,44 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    const sortEmail = [...userData].sort((a, b) => {
-      if (a.email < b.email) {
-        return -1;
-      }
-      if (a.email > b.email) {
-        return 1;
-      }
-      return 0;
-    });
-    setUserData(sortEmail);
+    if (selectedOption?.value == "email") {
+      const sortEmail = [...userData].sort((a, b) => {
+        if (a.email < b.email) {
+          return -1;
+        }
+        if (a.email > b.email) {
+          return 1;
+        }
+        return 0;
+      });
+      setUserData(sortEmail);
+    }
+
+    if (selectedOption?.value == "firstName") {
+      const sortFirstName = [...userData].sort((a, b) => {
+        if (a.firstName < b.firstName) {
+          return -1;
+        }
+        if (a.firstName > b.firstName) {
+          return 1;
+        }
+        return 0;
+      });
+      setUserData(sortFirstName);
+    }
+
+    if (selectedOption?.value == "lastName") {
+      const sortLastName = [...userData].sort((a, b) => {
+        if (a.lastName < b.lastName) {
+          return -1;
+        }
+        if (a.lastName > b.lastName) {
+          return 1;
+        }
+        return 0;
+      });
+      setUserData(sortLastName);
+    }
   }, [selectedOption]);
 
   const handleLogout = () => {
@@ -53,12 +81,17 @@ const Main = () => {
           Logout
         </button>
       </nav>
-      <div className="m-5 p-5">
-        <Select
-          defaultValue={selectedOption}
-          onChange={setSelectedOption}
-          options={options}
-        />
+      <div className="m-5 p-5 flex items-center justify-center flex-row">
+        <div>
+          <p className="mx-2">Sort : </p>
+        </div>
+        <div className="w-40">
+          <Select
+            defaultValue={selectedOption}
+            onChange={setSelectedOption}
+            options={options}
+          />
+        </div>
       </div>
       <Table data={userData} />
     </div>

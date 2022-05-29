@@ -12,7 +12,7 @@ const Table = ({ data }) => {
     return data.slice(firstPageIndex, lastPageIndex);
   }, [currentPage, data]);
   return (
-    <div className="container mx-auto px-4 py-0 sm:px-8">
+    <div className="container mb-5 mx-auto px-4 py-0 sm:px-8">
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
         <div className="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
           <table className="min-w-full leading-normal">
