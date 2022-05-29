@@ -25,7 +25,7 @@ const Login = () => {
       const url = `${process.env.REACT_APP_BASE_URL}/api/auth`;
       const { data: res } = await axios.post(url, fetchedValues);
       localStorage.setItem("token", res.data);
-      toast.success("Login Sucessfull");
+      toast.success(res.message);
       setTimeout(() => {
         window.location = "/";
       }, 1000);
