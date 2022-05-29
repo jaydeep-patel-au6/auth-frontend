@@ -6,9 +6,17 @@ import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+const ALPHABETS_ONLY = /(^\w+)\s?/;
+
 const SignupSchema = Yup.object().shape({
-  firstName: Yup.string().required("Required"),
-  lastName: Yup.string().required("Required"),
+  firstName: Yup.string()
+    .required("Required")
+    .matches(ALPHABETS_ONLY, "Only alphabets are allowed")
+    .min(2, "First Name must be at least 2 characters"),
+  lastName: Yup.string()
+    .required("Required")
+    .matches(ALPHABETS_ONLY, "Only alphabets are allowed")
+    .min(2, "Last Name must be at least 2 characters"),
   email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string()
     .required("Required")
@@ -33,10 +41,12 @@ const Signup = () => {
     };
 
     try {
-      const url = "https://auth-backend-deploy1.herokuapp.com/api/users";
+      const url = `${process.env.REACT_APP_BASE_URL}/api/users`;
       const { data: res } = await axios.post(url, fetchedValues);
       toast.success("Register Sucessfull. Please login");
-      navigate("/login");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
       setDisable(false);
     } catch (error) {
       if (

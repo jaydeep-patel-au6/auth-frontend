@@ -18,12 +18,10 @@ const Main = () => {
 
   useEffect(() => {
     setLoader(true);
-    axios
-      .get("https://auth-backend-deploy1.herokuapp.com/api/userlist")
-      .then((response) => {
-        setUserData(response?.data);
-        setLoader(false);
-      });
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/userlist`).then((response) => {
+      setUserData(response?.data);
+      setLoader(false);
+    });
   }, []);
 
   useEffect(() => {

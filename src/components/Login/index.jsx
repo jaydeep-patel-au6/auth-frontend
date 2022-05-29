@@ -22,11 +22,13 @@ const Login = () => {
     };
 
     try {
-      const url = "https://auth-backend-deploy1.herokuapp.com/api/auth";
+      const url = `${process.env.REACT_APP_BASE_URL}/api/auth`;
       const { data: res } = await axios.post(url, fetchedValues);
       localStorage.setItem("token", res.data);
       toast.success("Login Sucessfull");
-      window.location = "/";
+      setTimeout(() => {
+        window.location = "/";
+      }, 1000);
       setDisable(false);
     } catch (error) {
       if (
