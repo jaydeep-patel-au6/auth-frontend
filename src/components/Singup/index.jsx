@@ -6,17 +6,11 @@ import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const ALPHABETS_ONLY = /(^\w+)\s?/;
-
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
     .required("Required")
-    .matches(ALPHABETS_ONLY, "Only alphabets are allowed")
-    .min(2, "First Name must be at least 2 characters"),
-  lastName: Yup.string()
-    .required("Required")
-    .matches(ALPHABETS_ONLY, "Only alphabets are allowed")
-    .min(2, "Last Name must be at least 2 characters"),
+    .min(2, "minimum 2 char required"),
+  lastName: Yup.string().required("Required").min(2, "minimum 2 char required"),
   email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string()
     .required("Required")
